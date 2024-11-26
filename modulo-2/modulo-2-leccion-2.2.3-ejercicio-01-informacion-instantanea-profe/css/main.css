@@ -1,0 +1,8 @@
+.exerciseSection {
+  margin: 2rem;
+  width: 50vw;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  font-weight: bold;
+}
