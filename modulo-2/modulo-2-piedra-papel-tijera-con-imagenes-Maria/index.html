@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piedra, papel y tijera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="http://beta.adalab.es/resources/stylesheets/all.css" />
+  <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+  <main class="border--medium border--success main">
+    <h1 class="title">Juego piedra, papel y tijera</h1>
+    <h3 class="h2">Introduce aquí tu jugada:</h3>
+    <form class="form">
+      <select class="js_userOptionSelect border--medium js_move h2" name="jugada" id="jugada">
+        <option value="select">Seleccione su jugada</option>
+        <option value="piedra">Piedra</option>
+        <option value="papel">Papel</option>
+        <option value="tijera">Tijera</option>
+      </select>
+      <button class="js_playBtn badge play h2">Jugar</button>
+      <button class="js_reloadBtn badge reload hidden">Reiniciar juego</button>
+    </form>
+
+    <div class="mt-3s">
+      <h2 class="h2 badge js_result">¡Vamos a jugar!</h2>
+    </div>
+
+    <section class="section_images">
+
+      <div class="div_image">
+        <div class="js_imagePlayerOptionSelect hidden"></div>
+        <p class="js_paragraphPlayerOptionSelect hidden"></p>
+      </div>
+
+      <div class="div_image">
+        <div class="js_imageComputerOptionSelect hidden"></div>
+        <p class="js_paragraphComputerOptionSelect hidden"></p>
+      </div>
+
+    </section>
+
+
+    <section>
+
+      <h2 class="h2">Resultado total:</h2>
+
+      <div>
+        <p class="js_counter_win input">Jugadora: 0</p>
+      </div>
+
+      <div>
+        <p class="js_counter_lost input">Computadora: 0</p>
+      </div>
+
+      <p class="js_winnerParagraph"></p>
+
+    </section>
+
+  </main>
+
+  <script src="./js/main.js"></script>
+</body>
+
+</html>
