@@ -21,13 +21,89 @@ const roundMoveElements = {
   }
 }
 
+
+
 // SECCIÓN DE LOS DATOS DE APLICACIÓN
 
 let playerWinsCounter = 0;
 let playerLosesCounter = 0;
 
 
-// SECCIÓN DE FUNCIONES
+
+// SECCIÓN DE FUNCIONES QUE RENDERIZAN EN LA PÁGINA
+
+const showMovesElements = () => {
+  roundMoveElements.user.image.classList.remove('hidden');
+  roundMoveElements.user.paragraph.classList.remove('hidden');
+
+  roundMoveElements.computer.image.classList.remove('hidden');
+  roundMoveElements.computer.paragraph.classList.remove('hidden');
+};
+
+const hideMovesElements = () => {
+  roundMoveElements.user.image.classList.add('hidden');
+  roundMoveElements.user.paragraph.classList.add('hidden');
+
+  roundMoveElements.computer.image.classList.add('hidden');
+  roundMoveElements.computer.paragraph.classList.add('hidden');
+};
+
+const getMoveImageSrc = (move) => {
+  return `./images/imagen_${move}.jpg`;
+}
+
+const getMoveImageAlt = (move) => {
+  return `La jugadora ha seleccionado ${move}`;
+}
+
+const getMoveParagraphText = (player, move) => {
+  const playerName = player === 'user' ? 'jugadora' : 'computadora';
+
+  return `La ${playerName} ha seleccionado ${move}`;
+}
+
+const renderMove = (player, move) => {
+  if( !['piedra', 'papel', 'tijera'].includes(move) ) {
+    hideMovesElements();
+
+    return;
+  }
+  showMovesElements();
+  
+  roundMoveElements[player].image.src = getMoveImageSrc(move);
+  roundMoveElements[player].image.alt = getMoveImageAlt(move);
+  roundMoveElements[player].paragraph.innerHTML = getMoveParagraphText(player, move);
+};
+
+const getResultMessage = (winner) => {
+  if( winner === 'user' ) {
+    return 'Has ganado';
+  }
+  else if( winner === 'computer' ) {
+    return 'Has perdido';
+  }
+  else if( winner === 'tie' ) {
+    return 'Has empatado';
+  }
+  else {
+    return 'Recuerda seleccionar una jugada';;
+  }
+}
+
+const renderResult = (winner) => {
+  const message = getResultMessage(winner);
+
+  resultDiv.innerHTML = message;
+}
+
+const renderCounters = () => {
+  counterWinParagraph.innerHTML = `Jugadora: ${playerWinsCounter}`;
+  counterLostParagraph.innerHTML = `Computadora: ${playerLosesCounter}`;
+}
+
+
+
+// SECCIÓN DE FUNCIONES CON LA LÓGICA DEL JUEGO
 
 /**
  * Genera un número aleatorio entre 1 y el valor que el indiquemos
@@ -70,7 +146,6 @@ const getPlayerMove = () => {
   return userOptionSelect.value;
 }
 
-
 const whoWins = (userMove, computerMove) => {
 
   if( userMove === computerMove ) {
@@ -105,79 +180,6 @@ const whoWins = (userMove, computerMove) => {
   return 'ERROR';
 }
 
-const showMovesElements = () => {
-  roundMoveElements.user.image.classList.remove('hidden');
-  roundMoveElements.user.paragraph.classList.remove('hidden');
-
-  roundMoveElements.computer.image.classList.remove('hidden');
-  roundMoveElements.computer.paragraph.classList.remove('hidden');
-};
-
-const hideMovesElements = () => {
-  roundMoveElements.user.image.classList.add('hidden');
-  roundMoveElements.user.paragraph.classList.add('hidden');
-
-  roundMoveElements.computer.image.classList.add('hidden');
-  roundMoveElements.computer.paragraph.classList.add('hidden');
-};
-
-const getMoveImageSrc = (move) => {
-  return `./images/imagen_${move}.jpg`;
-}
-
-const getMoveImageAlt = (move) => {
-  return `La jugadora ha seleccionado ${move}`;
-}
-
-const getMoveParagraphText = (player, move) => {
-  const playerName = player === 'user' ? 'jugadora' : 'computadora';
-
-  return `La ${playerName} ha seleccionado ${move}`;
-}
-
-const renderMove = (player, move) => {
-  if( !['piedra', 'papel', 'tijera'].includes(move) ) {
-    hideMovesElements();
-
-    return;
-  }
-  showMovesElements();
-  
-  roundMoveElements[player].image.innerHTML = `<img src="${getMoveImageSrc(move)}" alt="${getMoveImageAlt(move)}" />`;
-  roundMoveElements[player].paragraph.innerHTML = `<p class="h2">${getMoveParagraphText(player, move)}</p>`;
-};
-
-const getResultMessage = (winner) => {
-  if( winner === 'user' ) {
-    return 'Has ganado';
-  }
-  else if( winner === 'computer' ) {
-    return 'Has perdido';
-  }
-  else if( winner === 'tie' ) {
-    return 'Has empatado';
-  }
-  else {
-    return 'Recuerda seleccionar una jugada';;
-  }
-}
-
-const renderResult = (winner) => {
-  const message = getResultMessage(winner);
-
-  resultDiv.innerHTML = message;
-}
-
-const incrementCounters = (winner) => {
-  if( winner === 'user' ) {
-    playerWinsCounter++;
-  }
-  else if( winner === 'computer' ) {
-    playerLosesCounter++;
-  }
-}
-
-
 const playRound = () => {
   const computerMove = genComputerMove();
   
@@ -197,9 +199,15 @@ const playRound = () => {
 
 
 
-const renderCounters = () => {
-  counterWinParagraph.innerHTML = `Jugadora: ${playerWinsCounter}`;
-  counterLostParagraph.innerHTML = `Computadora: ${playerLosesCounter}`;
+// SECCIÓN DE FUNCIONES RELACIONADAS CON LOS CONTADORES
+
+const incrementCounters = (winner) => {
+  if( winner === 'user' ) {
+    playerWinsCounter++;
+  }
+  else if( winner === 'computer' ) {
+    playerLosesCounter++;
+  }
 }
 
 const checkCounters = () => {
@@ -222,6 +230,10 @@ const updateCounters = () => {
   checkCounters();
 }
 
+
+
+// SECCIÓN DE FUNCIONES DE EVENTOS
+
 const handleClickButton = (ev) => {
   ev.preventDefault();
 
@@ -229,7 +241,6 @@ const handleClickButton = (ev) => {
 
   updateCounters();  
 }
-
 
 const handleClickResetBtn = (ev) => {
   ev.preventDefault();
@@ -247,7 +258,6 @@ const handleClickResetBtn = (ev) => {
 
   hideMovesElements();
 };
-
 
 
 
